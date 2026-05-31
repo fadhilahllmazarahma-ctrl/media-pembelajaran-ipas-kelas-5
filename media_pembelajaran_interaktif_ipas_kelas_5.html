@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Satwa - Perkembangbiakan Hewan IPAS Kelas 5</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
+            background-attachment: fixed; /* Latar belakang gradasi tetap diam/terkunci */
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-fun {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .bouncy {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .bouncy:hover {
+            transform: scale(1.05);
+        }
+        .bouncy:active {
+            transform: scale(0.95);
+        }
+        /* Custom floating animation for background clouds */
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-10px) translateX(5px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+        .floater {
+            animation: float 6s ease-in-out infinite;
+        }
+        .floater-delayed {
+            animation: float 8s ease-in-out infinite;
+            animation-delay: 2s;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-800">
+
+    <!-- Background Decorative elements -->
+    <div class="fixed top-10 left-10 text-6xl opacity-20 floater pointer-events-none">☁️</div>
+    <div class="fixed top-32 right-12 text-7xl opacity-25 floater-delayed pointer-events-none">☁️</div>
+    <div class="fixed bottom-20 left-16 text-5xl opacity-20 floater-delayed pointer-events-none">🌿</div>
+    <div class="fixed bottom-10 right-20 text-6xl opacity-20 floater pointer-events-none">🌸</div>
+
+    <!-- Header / Navbar -->
+    <header class="bg-white/80 backdrop-blur-md border-b-4 border-yellow-300 py-4 px-6 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl">🦁</span>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold text-emerald-600 tracking-wide">PETUALANGAN SATWA</h1>
+                    <p class="text-xs text-amber-500 font-bold">IPAS KELAS 5 SD</p>
+                </div>
+            </div>
+            <div id="student-badge" class="hidden bg-emerald-100 border-2 border-emerald-400 rounded-full px-4 py-1 text-sm font-bold text-emerald-700">
+                👤 Halo, <span id="display-name" class="text-amber-600">Siswa</span>!
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-5xl w-full mx-auto p-4 md:p-6 flex flex-col justify-center z-10">
+        
+        <!-- 1. HOME SCREEN -->
+        <section id="screen-home" class="bg-white rounded-3xl border-b-8 border-r-8 border-emerald-500 p-6 md:p-12 text-center shadow-xl space-y-6 max-w-2xl mx-auto my-auto">
+            <div class="text-7xl md:text-8xl animate-bounce">🐢🐣🐾</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-emerald-600 leading-tight">
+                Mari Belajar<br>
+                <span class="text-amber-500 text-4xl md:text-5xl">Perkembangbiakan Hewan!</span>
+            </h2>
+            <p class="text-slate-600 text-base md:text-lg">
+                Hai sahabat kecil! Yuk, kita jelajahi bagaimana hewan-hewan di sekitar kita melestarikan jenisnya agar tidak punah. Sangat seru dan menyenangkan!
+            </p>
+            
+            <div class="bg-amber-50 border-2 border-dashed border-amber-300 rounded-2xl p-6 space-y-4">
+                <label for="student-name" class="block font-fun text-lg text-amber-700 font-bold">Tulis Namamu di Sini:</label>
+                <input type="text" id="student-name" placeholder="Ketik nama panggilanmu..." 
+                       class="w-full text-center px-4 py-3 rounded-xl border-3 border-emerald-400 focus:outline-none focus:ring-4 focus:ring-emerald-200 text-lg font-bold transition">
+                <p id="home-warning" class="text-red-500 text-xs hidden font-bold">Oops! Isi namamu dulu ya sebelum berpetualang! 😊</p>
+            </div>
+
+            <button onclick="startAdventure()" class="bouncy w-full py-4 bg-emerald-500 text-white rounded-2xl font-fun text-xl font-bold shadow-lg hover:bg-emerald-600 border-b-4 border-emerald-700 block">
+                Mulai Petualangan! 🚀
+            </button>
+        </section>
+
+        <!-- 2. MAIN MENU -->
+        <section id="screen-menu" class="hidden space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-3xl font-extrabold text-emerald-600">Peta Petualangan Belajar</h2>
+                <p class="text-slate-600 text-sm md:text-base">Pilih salah satu pulau misi di bawah ini untuk memulai!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <!-- Card Belajar -->
+                <div class="bg-white rounded-3xl border-b-8 border-r-8 border-sky-400 p-6 shadow-md flex flex-col justify-between h-80 bouncy hover:border-sky-500">
+                    <div class="space-y-4">
+                        <div class="w-16 h-16 bg-sky-100 rounded-2xl flex items-center justify-center text-4xl">📖</div>
+                        <h3 class="text-2xl font-bold text-sky-600">1. Pulau Materi Belajar</h3>
+                        <p class="text-slate-500 text-sm">Pelajari cara perkembangbiakan hewan secara Generatif (Seksual) dan Vegetatif (Aseksual) melalui gambar dan cerita interaktif.</p>
+                    </div>
+                    <button onclick="switchScreen('screen-materi')" class="w-full py-3 bg-sky-500 text-white font-fun font-bold rounded-xl border-b-4 border-sky-700 hover:bg-sky-600">
+                        Buka Buku Materi 🌾
+                    </button>
+                </div>
+
+                <!-- Card Kuis -->
+                <div class="bg-white rounded-3xl border-b-8 border-r-8 border-amber-400 p-6 shadow-md flex flex-col justify-between h-80 bouncy hover:border-amber-500">
+                    <div class="space-y-4">
+                        <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center text-4xl">🏆</div>
+                        <h3 class="text-2xl font-bold text-amber-600">2. Arena Kuis Pintar</h3>
+                        <p class="text-slate-500 text-sm">Uji pengetahuan hebatmu dengan menjawab 20 soal seru! Dapatkan predikat kelulusanmu dan buktikan kamu juara!</p>
+                    </div>
+                    <button onclick="startQuiz()" class="w-full py-3 bg-amber-500 text-white font-fun font-bold rounded-xl border-b-4 border-amber-700 hover:bg-amber-600">
+                        Mulai Ujian Seru 🎯
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. MATERI SCREEN -->
+        <section id="screen-materi" class="hidden space-y-6">
+            <!-- Navigation -->
+            <div class="flex justify-between items-center">
+                <button onclick="switchScreen('screen-menu')" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 font-bold rounded-xl text-slate-700 flex items-center gap-2">
+                    ⬅️ Menu Utama
+                </button>
+                <button onclick="startQuiz()" class="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl border-b-4 border-amber-700">
+                    Lanjut ke Kuis 🎯
+                </button>
+            </div>
+
+            <!-- Header Materi -->
+            <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl p-6 text-white shadow-md text-center md:text-left md:flex justify-between items-center gap-6">
+                <div class="space-y-2">
+                    <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase">Misi Pembelajaran</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold">Bagaimana Hewan Berkembang Biak?</h2>
+                    <p class="text-emerald-100 text-sm md:text-base">Secara umum, hewan berkembang biak dengan 2 cara utama, yaitu Generatif dan Vegetatif.</p>
+                </div>
+                <div class="text-6xl mt-4 md:mt-0">🧬</div>
+            </div>
+
+            <!-- Dua Kategori Utama -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Generatif -->
+                <div class="bg-rose-50 rounded-3xl p-6 border-4 border-rose-200 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">❤️</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-rose-600">Perkembangbiakan Generatif</h3>
+                            <p class="text-xs text-rose-500 font-bold">Melalui Proses Perkawinan (Seksual)</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">Terjadi saat sel telur dari hewan betina bertemu dengan sel sperma dari hewan jantan.</p>
+                    
+                    <div class="grid grid-cols-3 gap-2 pt-2">
+                        <button onclick="openDetail('ovipar')" class="bouncy bg-white p-3 rounded-2xl border-2 border-rose-300 text-center shadow-sm">
+                            <span class="text-3xl block">🥚</span>
+                            <span class="text-xs font-bold text-rose-600">Ovipar</span>
+                        </button>
+                        <button onclick="openDetail('vivipar')" class="bouncy bg-white p-3 rounded-2xl border-2 border-rose-300 text-center shadow-sm">
+                            <span class="text-3xl block">🐄</span>
+                            <span class="text-xs font-bold text-rose-600">Vivipar</span>
+                        </button>
+                        <button onclick="openDetail('ovovivipar')" class="bouncy bg-white p-3 rounded-2xl border-2 border-rose-300 text-center shadow-sm">
+                            <span class="text-3xl block">🦎</span>
+                            <span class="text-xs font-bold text-rose-600">Ovovivipar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Vegetatif -->
+                <div class="bg-teal-50 rounded-3xl p-6 border-4 border-teal-200 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">🌱</span>
+                        <div>
+                            <h3 class="text-xl font-bold text-teal-600">Perkembangbiakan Vegetatif</h3>
+                            <p class="text-xs text-teal-500 font-bold">Tanpa Proses Perkawinan (Aseksual)</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-slate-600 leading-relaxed">Hewan baru tumbuh langsung dari bagian tubuh induknya sendiri. Biasanya terjadi pada hewan tingkat rendah.</p>
+                    
+                    <div class="grid grid-cols-3 gap-2 pt-2">
+                        <button onclick="openDetail('tunas')" class="bouncy bg-white p-3 rounded-2xl border-2 border-teal-300 text-center shadow-sm">
+                            <span class="text-3xl block">👾</span>
+                            <span class="text-xs font-bold text-teal-600">Tunas</span>
+                        </button>
+                        <button onclick="openDetail('fragmentasi')" class="bouncy bg-white p-3 rounded-2xl border-2 border-teal-300 text-center shadow-sm">
+                            <span class="text-3xl block">🪱</span>
+                            <span class="text-xs font-bold text-teal-600">Fragmentasi</span>
+                        </button>
+                        <button onclick="openDetail('membelah')" class="bouncy bg-white p-3 rounded-2xl border-2 border-teal-300 text-center shadow-sm">
+                            <span class="text-3xl block">🦠</span>
+                            <span class="text-xs font-bold text-teal-600">Membelah Diri</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Petunjuk Interaktif -->
+            <div class="bg-amber-100/50 border-2 border-amber-300 rounded-2xl p-4 text-center">
+                <p class="text-amber-800 text-sm font-bold">💡 Klik salah satu tombol mini bersimbol di atas untuk mempelajari penjelasannya lebih dalam!</p>
+            </div>
+        </section>
+
+        <!-- 4. DETAIL POPUP / CARD (MATERI DETAILS) -->
+        <div id="materi-popup" class="hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+            <div class="bg-white rounded-3xl border-4 border-yellow-400 max-w-lg w-full p-6 space-y-6 relative animate-scale shadow-2xl">
+                <!-- Close Button -->
+                <button onclick="closeDetail()" class="absolute -top-4 -right-4 bg-red-500 text-white w-10 h-10 rounded-full font-bold text-lg flex items-center justify-center border-4 border-white shadow-md bouncy">
+                    ❌
+                </button>
+
+                <div class="text-center space-y-2">
+                    <div id="detail-icon" class="text-6xl">🥚</div>
+                    <h3 id="detail-title" class="text-3xl font-extrabold text-slate-800">Nama Perkembangbiakan</h3>
+                    <span id="detail-category" class="inline-block bg-indigo-100 text-indigo-700 text-xs px-3 py-1 rounded-full font-bold">Kategori</span>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-bold text-emerald-600">💡 Apa Itu?</h4>
+                        <p id="detail-desc" class="text-slate-600 text-sm leading-relaxed">Penjelasan materi.</p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-amber-600">📌 Ciri-Ciri Utama:</h4>
+                        <ul id="detail-features" class="list-disc list-inside text-slate-600 text-sm space-y-1">
+                            <!-- List ciri-ciri -->
+                        </ul>
+                    </div>
+
+                    <div class="bg-sky-50 rounded-2xl p-4 border border-sky-200">
+                        <h4 class="font-bold text-sky-700 mb-2">🐾 Contoh Hewan:</h4>
+                        <div id="detail-examples" class="flex flex-wrap gap-2">
+                            <!-- Contoh Hewan Badge -->
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="closeDetail()" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-fun font-bold rounded-xl border-b-4 border-emerald-700">
+                    Aku Paham! 👍
+                </button>
+            </div>
+        </div>
+
+        <!-- 5. KUIS SCREEN -->
+        <section id="screen-kuis" class="hidden max-w-2xl mx-auto space-y-6">
+            <!-- Header Kuis -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border-2 border-slate-200 flex justify-between items-center">
+                <div class="space-y-1">
+                    <span class="text-xs text-slate-500 font-bold">Progres Belajar</span>
+                    <div class="flex items-center gap-2">
+                        <div class="w-32 bg-slate-200 rounded-full h-3 overflow-hidden">
+                            <div id="quiz-progress-bar" class="bg-emerald-500 h-full transition-all duration-300" style="width: 5%"></div>
+                        </div>
+                        <span id="quiz-progress-text" class="text-xs font-bold text-slate-700">Soal 1/20</span>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <span class="text-xs text-slate-500 font-bold">Skor Saat Ini</span>
+                    <div class="text-lg font-bold text-amber-500">✨ <span id="current-score">0</span></div>
+                </div>
+            </div>
+
+            <!-- Kartu Pertanyaan -->
+            <div class="bg-white rounded-3xl border-b-8 border-r-8 border-emerald-500 p-6 md:p-8 shadow-md space-y-6">
+                <div class="space-y-2">
+                    <span class="bg-emerald-100 text-emerald-700 text-xs px-3 py-1 rounded-full font-bold">Pertanyaan No. <span id="question-number">1</span></span>
+                    <h3 id="question-text" class="text-lg md:text-xl font-bold text-slate-800 leading-relaxed">Isi soal di sini</h3>
+                </div>
+
+                <!-- Pilihan Jawaban -->
+                <div id="options-container" class="grid grid-cols-1 gap-3">
+                    <!-- Tombol Pilihan Jawaban (A, B, C, D) -->
+                </div>
+
+                <!-- Custom Feedback Alert (Benar/Salah) -->
+                <div id="feedback-alert" class="hidden rounded-2xl p-4 text-center font-bold text-lg animate-bounce">
+                    Feedback teks
+                </div>
+
+                <!-- Button Lanjut -->
+                <button id="btn-next" onclick="nextQuestion()" class="hidden w-full py-4 bg-amber-500 hover:bg-amber-600 text-white font-fun text-lg font-bold rounded-2xl border-b-4 border-amber-700 shadow-md">
+                    Soal Berikutnya ➡️
+                </button>
+            </div>
+        </section>
+
+        <!-- 6. SCORE SCREEN (RESULT) -->
+        <section id="screen-score" class="hidden text-center max-w-lg mx-auto space-y-6">
+            <div class="bg-white rounded-3xl border-b-8 border-r-8 border-amber-500 p-8 shadow-xl space-y-6 relative overflow-hidden">
+                <!-- Confetti Canvas (will render inside if passed) -->
+                <canvas id="confetti-canvas" class="absolute inset-0 pointer-events-none w-full h-full"></canvas>
+
+                <div id="result-status-badge" class="w-24 h-24 mx-auto rounded-full flex items-center justify-center text-5xl shadow-md border-4">
+                    🎉
+                </div>
+
+                <div class="space-y-2">
+                    <h2 class="text-sm font-bold tracking-widest uppercase text-slate-400">Hasil Evaluasimu</h2>
+                    <h3 id="result-title" class="text-3xl font-extrabold text-emerald-600">TUNTAS BELAJAR!</h3>
+                    <p id="result-message" class="text-slate-500 text-sm">Selamat Kamu luar biasa hebat!</p>
+                </div>
+
+                <!-- Nilai Display -->
+                <div class="bg-amber-50 border-2 border-dashed border-amber-300 rounded-2xl p-6 space-y-2">
+                    <span class="text-slate-500 text-xs font-bold uppercase tracking-wider">Skor Kamu</span>
+                    <div class="text-6xl font-extrabold text-amber-500" id="final-score">0</div>
+                    <p class="text-xs text-slate-400 font-bold">Standar Ketuntasan: &gt; 70</p>
+                </div>
+
+                <!-- Statistik Benar/Salah -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-emerald-50 rounded-2xl p-4 border border-emerald-200">
+                        <span class="text-3xl block">✅</span>
+                        <span class="text-xs text-slate-500 block font-bold mt-1">Benar</span>
+                        <span id="stat-correct" class="text-xl font-bold text-emerald-600">0</span>
+                    </div>
+                    <div class="bg-rose-50 rounded-2xl p-4 border border-rose-200">
+                        <span class="text-3xl block">❌</span>
+                        <span class="text-xs text-slate-500 block font-bold mt-1">Salah</span>
+                        <span id="stat-incorrect" class="text-xl font-bold text-rose-600">0</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="space-y-3 pt-4">
+                    <button onclick="restartKuis()" class="bouncy w-full py-4 bg-amber-500 hover:bg-amber-600 text-white font-fun font-bold text-lg rounded-xl border-b-4 border-amber-700 shadow-md">
+                        Ulangi Kuis 🔄
+                    </button>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="switchScreen('screen-materi')" class="bouncy py-3 bg-sky-500 hover:bg-sky-600 text-white font-fun font-bold rounded-xl border-b-4 border-sky-700">
+                            Baca Materi 📖
+                        </button>
+                        <button onclick="gantiSiswa()" class="bouncy py-3 bg-slate-400 hover:bg-slate-500 text-white font-fun font-bold rounded-xl border-b-4 border-slate-600">
+                            Ganti Siswa 👥
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-400 py-4 px-6 text-center text-xs border-t-4 border-slate-900 mt-8 z-10">
+        <p>© 2026 Petualangan Satwa SD. Didesain dengan ❤️ oleh Ahli Media Pembelajaran Interaktif IPAS.</p>
+    </footer>
+
+    <!-- JS Logic Core -->
+    <script>
+        // --- 1. STATE & DATABASE SOAL ---
+        let currentScreen = 'screen-home';
+        let studentName = '';
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let correctAnswersCount = 0;
+        let incorrectAnswersCount = 0;
+        let hasAnsweredCurrent = false;
+
+        // Data Penjelasan Detail Materi
+        const materiData = {
+            ovipar: {
+                title: 'Ovipar (Bertelur)',
+                category: 'Generatif (Seksual)',
+                icon: '🥚',
+                desc: 'Ovipar adalah cara berkembang biak hewan dengan cara meletakkan telur di luar tubuh induknya. Embrio bayi hewan akan tumbuh dan berkembang di dalam cangkang telur dengan menyerap cadangan makanan yang ada di dalamnya sampai menetas.',
+                features: [
+                    'Tidak memiliki daun telinga.',
+                    'Tidak memiliki kelenjar susu dan tidak menyusui.',
+                    'Induk mengerami telurnya hingga menetas.',
+                    'Telur dilindungi oleh cangkang yang keras/lunak.'
+                ],
+                examples: ['🐔 Ayam', '🦆 Bebek', '🦅 Burung', '🐢 Penyu', '🐸 Katak']
+            },
+            vivipar: {
+                title: 'Vivipar (Melahirkan)',
+                category: 'Generatif (Seksual)',
+                icon: '🐄',
+                desc: 'Vivipar adalah perkembangbiakan hewan dengan cara mengandung dan melahirkan anaknya. Embrio tumbuh di dalam rahim induk betina dan memperoleh asupan nutrisi makanan langsung dari plasenta/tubuh induknya.',
+                features: [
+                    'Memiliki daun telinga.',
+                    'Memiliki kelenjar susu dan menyusui anaknya (Mamalia).',
+                    'Tubuhnya biasanya ditumbuhi rambut halus.',
+                    'Mempunyai masa kehamilan.'
+                ],
+                examples: ['🐱 Kucing', '🐄 Sapi', '🐬 Lumba-lumba', '🦇 Kelelawar', '🐘 Gajah']
+            },
+            ovovivipar: {
+                title: 'Ovovivipar (Bertelur-Melahirkan)',
+                category: 'Generatif (Seksual)',
+                icon: '🦎',
+                desc: 'Ovovivipar adalah kombinasi unik di mana induk bertelur namun telur tersebut tetap disimpan di dalam perut induknya sampai menetas. Setelah menetas di dalam perut, bayi tersebut akan dikeluarkan (dilahirkan) ke luar tubuh induk.',
+                features: [
+                    'Tidak menyusui anaknya.',
+                    'Embrio mendapat nutrisi dari kuning telur di dalam cangkang, bukan dari plasenta induk.',
+                    'Bayi keluar dari tubuh induk tampak seperti proses melahirkan biasa.'
+                ],
+                examples: ['🐍 Ular Boas/Kadal', '🦈 Hiu Macan', '🦎 Kadal Kebun', '🐠 Ikan Pari', '🪵 Platipus (Mamalia Bertelur)']
+            },
+            tunas: {
+                title: 'Tunas',
+                category: 'Vegetatif (Aseksual)',
+                icon: '👾',
+                desc: 'Tunas adalah cara perkembangbiakan di mana tubuh induk hewan menumbuhkan tonjolan kecil (tunas). Tunas ini akan terus tumbuh besar, kemudian melepaskan diri menjadi individu baru yang mandiri.',
+                features: [
+                    'Tidak membutuhkan pasangan kawin.',
+                    'Tunas tumbuh dari dinding tubuh induk.',
+                    'Tunas baru memiliki sifat genetik yang sama persis dengan induknya.'
+                ],
+                examples: ['🦑 Hydra', '🪸 Anemon Laut', '🧽 Hewan Spons (Porifera)']
+            },
+            fragmentasi: {
+                title: 'Fragmentasi',
+                category: 'Vegetatif (Aseksual)',
+                icon: '🪱',
+                desc: 'Fragmentasi adalah cara perkembangbiakan di mana hewan memotong bagian tubuhnya sendiri. Setiap potongan tubuh yang terputus tersebut memiliki kemampuan ajaib untuk menumbuhkan bagian yang hilang hingga menjadi individu utuh yang baru.',
+                features: [
+                    'Tubuh sengaja diputus atau terpotong.',
+                    'Setiap bagian potongan tumbuh menjadi individu baru.',
+                    'Hanya terjadi pada hewan bersel banyak tingkat rendah.'
+                ],
+                examples: ['🪱 Cacing Pipih (Planaria)', '⭐ Bintang Laut']
+            },
+            membelah: {
+                title: 'Membelah Diri',
+                category: 'Vegetatif (Aseksual)',
+                icon: '🦠',
+                desc: 'Membelah diri adalah cara berkembang biak hewan bersel satu dengan membagi tubuhnya langsung menjadi dua bagian yang sama besar secara mandiri.',
+                features: [
+                    'Terjadi pada hewan mikro (sangat kecil/bersel satu).',
+                    'Inti sel membelah menjadi dua diikuti oleh pembelahan cairan tubuh.',
+                    'Prosesnya berlangsung sangat cepat.'
+                ],
+                examples: ['🦠 Amoeba', '🧪 Paramecium']
+            }
+        };
+
+        // Bank Soal Kuis (20 Soal Pilihan Ganda)
+        const quizQuestions = [
+            {
+                q: "Hewan yang berkembang biak dengan cara bertelur disebut kelompok hewan...",
+                o: ["A. Vivipar", "B. Ovipar", "C. Ovovivipar", "D. Vegetatif"],
+                a: 1 // B. Ovipar
+            },
+            {
+                q: "Berikut ini yang merupakan kelompok hewan vivipar (melahirkan) yang benar adalah...",
+                o: ["A. Kucing, Sapi, Gajah", "B. Ayam, Bebek, Angsa", "C. Ular, Platipus, Hiu", "D. Hydra, Planaria, Kura-kura"],
+                a: 0 // A
+            },
+            {
+                q: "Hewan ovovivipar melakukan cara bertelur sekaligus melahirkan. Mengapa disebut demikian?",
+                o: ["A. Karena telur dikeluarkan lalu langsung menetas", "B. Karena telur menetas di dalam tubuh induk lalu bayinya dilahirkan", "C. Karena tidak kawin tapi melahirkan", "D. Karena menyusui telur-telurnya"],
+                a: 1 // B
+            },
+            {
+                q: "Ciri fisik yang paling mudah membedakan hewan ovipar dari hewan vivipar adalah...",
+                o: ["A. Bentuk paruh yang tajam", "B. Warna kulit yang cerah", "C. Memiliki atau tidak memiliki daun telinga", "D. Panjang ekornya"],
+                a: 2 // C
+            },
+            {
+                q: "Meskipun hidup di air, paus dan lumba-lumba berkembang biak dengan cara...",
+                o: ["A. Bertelur (Ovipar)", "B. Membelah Diri", "C. Melahirkan (Vivipar)", "D. Bertelur-Melahirkan"],
+                a: 2 // C
+            },
+            {
+                q: "Berikut ini yang merupakan contoh perkembangbiakan vegetatif (tanpa kawin) adalah...",
+                o: ["A. Penyu mengerami telur", "B. Hydra menumbuhkan tunas", "C. Paus melahirkan anak", "D. Kadal mengeluarkan telurnya"],
+                a: 1 // B
+            },
+            {
+                q: "Cacing pipih (Planaria) memiliki cara perkembangbiakan yang unik. Jika tubuhnya terpotong, potongan itu akan tumbuh menjadi individu baru. Cara ini disebut...",
+                o: ["A. Tunas", "B. Membelah diri", "C. Fragmentasi", "D. Memisahkan diri"],
+                a: 2 // C
+            },
+            {
+                q: "Hewan bersel satu yang berukuran sangat kecil seperti Amoeba berkembang biak dengan cara...",
+                o: ["A. Membelah diri", "B. Tunas", "C. Bertelur", "D. Fragmentasi"],
+                a: 0 // A
+            },
+            {
+                q: "Hewan mamalia biasanya memiliki ciri khas berkembang biak dengan melahirkan dan...",
+                o: ["A. Mengerami telur", "B. Menyusui anaknya", "C. Memiliki kulit bersisik", "D. Bernapas dengan insang"],
+                a: 1 // B
+            },
+            {
+                q: "Platipus merupakan hewan mamalia yang sangat unik karena ia berkembang biak dengan cara...",
+                o: ["A. Melahirkan langsung", "B. Bertelur (Ovipar)", "C. Membelah diri", "D. Tunas"],
+                a: 1 // B
+            },
+            {
+                q: "Pada perkembangbiakan generatif, individu baru terbentuk dari bertemunya...",
+                o: ["A. Tunas induk dengan potongan ekor", "B. Sel sperma (jantan) dan sel telur (betina)", "C. Inti sel yang membelah secara cepat", "D. Makanan yang menumpuk di rahim"],
+                a: 1 // B
+            },
+            {
+                q: "Kuning telur (Yolk) di dalam telur ayam berfungsi sebagai...",
+                o: ["A. Mainan anak ayam saat di dalam telur", "B. Alat pernapasan embrio", "C. Cadangan makanan untuk embrio tumbuh", "D. Pelindung telur agar tidak pecah"],
+                a: 2 // C
+            },
+            {
+                q: "Hewan laut seperti penyu bertelur di pantai lalu mengubur telur di pasir. Penyu termasuk hewan...",
+                o: ["A. Vivipar", "B. Ovovivipar", "C. Ovipar", "D. Vegetatif"],
+                a: 2 // C
+            },
+            {
+                q: "Ciri hewan yang berkembang biak dengan cara bertelur (ovipar) antara lain...",
+                o: ["A. Memiliki kelenjar susu", "B. Tidak memiliki daun telinga", "C. Mengandung anak di dalam rahim", "D. Tubuh dipenuhi rambut lebat"],
+                a: 1 // B
+            },
+            {
+                q: "Contoh hewan di bawah ini yang berkembang biak dengan cara ovovivipar adalah...",
+                o: ["A. Hiu macan dan beberapa jenis kadal", "B. Hydra dan ubur-ubur", "C. Lumba-lumba dan kucing", "D. Burung merpati dan ayam"],
+                a: 0 // A
+            },
+            {
+                q: "Mengapa hewan perlu berkembang biak?",
+                o: ["A. Agar jumlah makanannya berkurang", "B. Untuk melestarikan jenisnya agar tidak punah", "C. Supaya badannya bertambah besar", "D. Untuk menguasai wilayah hutan"],
+                a: 1 // B
+            },
+            {
+                q: "Kelelawar termasuk hewan mamalia terbang. Kelelawar berkembang biak secara...",
+                o: ["A. Ovipar", "B. Vivipar", "C. Ovovivipar", "D. Fragmentasi"],
+                a: 1 // B
+            },
+            {
+                q: "Hewan tingkat rendah yang berkembang biak dengan menumbuhkan tunas samping pada tubuhnya lalu lepas saat dewasa adalah...",
+                o: ["A. Amoeba", "B. Hydra", "C. Cacing Planaria", "D. Bintang Laut"],
+                a: 1 // B
+            },
+            {
+                q: "Perkembangbiakan tanpa melalui peleburan sel jantan dan betina dinamakan perkembangbiakan...",
+                o: ["A. Generatif", "B. Seksual", "C. Vegetatif", "D. Kawin"],
+                a: 2 // C
+            },
+            {
+                q: "Embrio pada hewan vivipar memperoleh makanan langsung dari tubuh ibunya melalui...",
+                o: ["A. Kuning telur", "B. Kulit ari luar", "C. Plasenta atau tali pusat", "D. Mulut kecilnya langsung"],
+                a: 2 // C
+            }
+        ];
+
+        // --- 2. SOUND EFFECTS (Web Audio API Synthesizer) ---
+        function playSound(type) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                if (type === 'correct') {
+                    // Ding sound (high, pleasant)
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+                    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1); // A5
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.4);
+                } else if (type === 'incorrect') {
+                    // Buzz sound (low, warning)
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(220, ctx.currentTime); // A3
+                    osc.frequency.setValueAtTime(150, ctx.currentTime + 0.15); 
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + 0.5);
+                } else if (type === 'victory') {
+                    // Fun fanfare
+                    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                    notes.forEach((freq, idx) => {
+                        const o = ctx.createOscillator();
+                        const g = ctx.createGain();
+                        o.connect(g);
+                        g.connect(ctx.destination);
+                        o.type = 'sine';
+                        o.frequency.value = freq;
+                        g.gain.setValueAtTime(0.15, ctx.currentTime + idx * 0.1);
+                        g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + idx * 0.1 + 0.3);
+                        o.start(ctx.currentTime + idx * 0.1);
+                        o.stop(ctx.currentTime + idx * 0.1 + 0.3);
+                    });
+                }
+            } catch (e) {
+                console.log("Audio not supported or blocked by browser policies.");
+            }
+        }
+
+        // --- 3. NAVIGATION & LOGIC ---
+        function switchScreen(screenId) {
+            // Hide all screens
+            document.getElementById('screen-home').classList.add('hidden');
+            document.getElementById('screen-menu').classList.add('hidden');
+            document.getElementById('screen-materi').classList.add('hidden');
+            document.getElementById('screen-kuis').classList.add('hidden');
+            document.getElementById('screen-score').classList.add('hidden');
+
+            // Show selected screen
+            document.getElementById(screenId).classList.remove('hidden');
+            currentScreen = screenId;
+        }
+
+        function startAdventure() {
+            const nameInput = document.getElementById('student-name').value.trim();
+            const warningText = document.getElementById('home-warning');
+            
+            if (nameInput === '') {
+                warningText.classList.remove('hidden');
+                return;
+            }
+
+            warningText.classList.add('hidden');
+            studentName = nameInput;
+
+            // Update display name
+            document.getElementById('display-name').textContent = studentName;
+            document.getElementById('student-badge').classList.remove('hidden');
+
+            switchScreen('screen-menu');
+        }
+
+        function gantiSiswa() {
+            // Reset Name
+            document.getElementById('student-name').value = '';
+            document.getElementById('student-badge').classList.add('hidden');
+            switchScreen('screen-home');
+        }
+
+        // --- 4. MATERI DETAIL MODAL ---
+        function openDetail(key) {
+            const data = materiData[key];
+            if (!data) return;
+
+            // Set content to modal
+            document.getElementById('detail-icon').textContent = data.icon;
+            document.getElementById('detail-title').textContent = data.title;
+            document.getElementById('detail-category').textContent = data.category;
+            document.getElementById('detail-desc').textContent = data.desc;
+
+            // Render features list
+            const featuresContainer = document.getElementById('detail-features');
+            featuresContainer.innerHTML = '';
+            data.features.forEach(feat => {
+                const li = document.createElement('li');
+                li.textContent = feat;
+                featuresContainer.appendChild(li);
+            });
+
+            // Render examples badges
+            const examplesContainer = document.getElementById('detail-examples');
+            examplesContainer.innerHTML = '';
+            data.examples.forEach(ex => {
+                const span = document.createElement('span');
+                span.className = 'bg-sky-100 text-sky-800 text-xs px-3 py-1.5 rounded-full font-bold shadow-sm';
+                span.textContent = ex;
+                examplesContainer.appendChild(span);
+            });
+
+            // Show Popup
+            document.getElementById('materi-popup').classList.remove('hidden');
+        }
+
+        function closeDetail() {
+            document.getElementById('materi-popup').classList.add('hidden');
+        }
+
+        // --- 5. KUIS LOGIC (20 SOAL) ---
+        function startQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            correctAnswersCount = 0;
+            incorrectAnswersCount = 0;
+            
+            switchScreen('screen-kuis');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            hasAnsweredCurrent = false;
+            document.getElementById('btn-next').classList.add('hidden');
+            document.getElementById('feedback-alert').className = 'hidden'; // Reset classes
+
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            
+            // Progress Update
+            const totalQuestions = quizQuestions.length;
+            const progressPercent = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${progressPercent}%`;
+            document.getElementById('quiz-progress-text').textContent = `Soal ${currentQuestionIndex + 1}/${totalQuestions}`;
+            
+            // Question info
+            document.getElementById('question-number').textContent = currentQuestionIndex + 1;
+            document.getElementById('question-text').textContent = currentQuestion.q;
+            document.getElementById('current-score').textContent = score;
+
+            // Render Options
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.o.forEach((opt, idx) => {
+                const button = document.createElement('button');
+                button.className = "w-full text-left p-4 rounded-2xl border-2 border-slate-200 bg-slate-50 hover:bg-slate-100 font-bold transition flex items-center gap-3 bouncy";
+                button.innerHTML = `
+                    <span class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-sm font-black text-slate-600">${String.fromCharCode(65 + idx)}</span>
+                    <span class="text-sm md:text-base text-slate-700">${opt}</span>
+                `;
+                button.onclick = () => selectOption(idx, button);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectOption(selectedIndex, selectedButton) {
+            if (hasAnsweredCurrent) return; // Prevent double answer selection
+            hasAnsweredCurrent = true;
+
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            const correctIndex = currentQuestion.a;
+            const optionsContainer = document.getElementById('options-container');
+            const optionButtons = optionsContainer.getElementsByTagName('button');
+
+            // Feedback Banner
+            const feedbackAlert = document.getElementById('feedback-alert');
+            feedbackAlert.classList.remove('hidden');
+
+            if (selectedIndex === correctIndex) {
+                // Jawaban Benar
+                playSound('correct');
+                selectedButton.className = "w-full text-left p-4 rounded-2xl border-3 border-emerald-500 bg-emerald-50 font-bold transition flex items-center gap-3";
+                selectedButton.querySelector('span:first-child').className = "w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-sm font-black text-white";
+                
+                feedbackAlert.className = "rounded-2xl p-4 text-center font-bold text-lg animate-bounce bg-emerald-100 text-emerald-800 border-2 border-emerald-400";
+                feedbackAlert.innerHTML = "🌟 Hebat! Jawabanmu BENAR! 🌟";
+                
+                score += 5; // 20 soal x 5 = 100 maks
+                correctAnswersCount++;
+            } else {
+                // Jawaban Salah
+                playSound('incorrect');
+                selectedButton.className = "w-full text-left p-4 rounded-2xl border-3 border-rose-500 bg-rose-50 font-bold transition flex items-center gap-3";
+                selectedButton.querySelector('span:first-child').className = "w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center text-sm font-black text-white";
+                
+                // Highlight correct answer
+                const correctButton = optionButtons[correctIndex];
+                correctButton.className = "w-full text-left p-4 rounded-2xl border-3 border-emerald-500 bg-emerald-50 font-bold transition flex items-center gap-3";
+                correctButton.querySelector('span:first-child').className = "w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-sm font-black text-white";
+
+                feedbackAlert.className = "rounded-2xl p-4 text-center font-bold text-lg animate-bounce bg-rose-100 text-rose-800 border-2 border-rose-400";
+                feedbackAlert.innerHTML = "😅 Hmm, kurang tepat. Tetap Semangat!";
+                
+                incorrectAnswersCount++;
+            }
+
+            // Lock all options hover
+            for (let btn of optionButtons) {
+                btn.classList.remove('bouncy');
+                btn.style.cursor = 'default';
+            }
+
+            // Show next button
+            document.getElementById('btn-next').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // --- 6. RESULT & CONFETTI ---
+        function showResults() {
+            switchScreen('screen-score');
+            
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('stat-correct').textContent = correctAnswersCount;
+            document.getElementById('stat-incorrect').textContent = incorrectAnswersCount;
+
+            const badge = document.getElementById('result-status-badge');
+            const rTitle = document.getElementById('result-title');
+            const rMsg = document.getElementById('result-message');
+
+            if (score >= 70) {
+                // Tuntas
+                playSound('victory');
+                badge.textContent = "🏆";
+                badge.className = "w-24 h-24 mx-auto rounded-full flex items-center justify-center text-5xl shadow-md border-4 border-emerald-400 bg-emerald-50 animate-bounce";
+                
+                rTitle.textContent = "TUNTAS BELAJAR!";
+                rTitle.className = "text-3xl font-extrabold text-emerald-600";
+                rMsg.innerHTML = `Selamat, <b>${studentName}</b>! Kamu berhasil melampaui Kriteria Ketuntasan. Nilaimu luar biasa hebat! 🎉`;
+                
+                // Start confetti effect
+                startConfetti();
+            } else {
+                // Tidak Tuntas
+                badge.textContent = "💪";
+                badge.className = "w-24 h-24 mx-auto rounded-full flex items-center justify-center text-5xl shadow-md border-4 border-amber-400 bg-amber-50 animate-pulse";
+                
+                rTitle.textContent = "TIDAK TUNTAS / BELUM TUNTAS";
+                rTitle.className = "text-3xl font-extrabold text-amber-600";
+                rMsg.innerHTML = `Wah, <b>${studentName}</b>! Jangan menyerah ya. Nilaimu masih di bawah 70. Yuk, ulangi baca materi lalu coba lagi! Kamu pasti bisa!`;
+                
+                // Stop any running confetti
+                stopConfetti();
+            }
+        }
+
+        function restartKuis() {
+            stopConfetti();
+            startQuiz();
+        }
+
+        // Simple HTML5 Canvas Confetti Effect
+        let confettiInterval;
+        function startConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+
+            const particles = [];
+            const colors = ['#f43f5e', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
+
+            for (let i = 0; i < 60; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 6 + 4,
+                    d: Math.random() * canvas.height,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    tilt: Math.random() * 10 - 5,
+                    tiltAngleIncremental: Math.random() * 0.07 + 0.02,
+                    tiltAngle: 0
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((p, index) => {
+                    p.tiltAngle += p.tiltAngleIncremental;
+                    p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+                    p.x += Math.sin(p.tiltAngle);
+                    p.tilt = Math.sin(p.tiltAngle - index / 3) * 15;
+
+                    if (p.y > canvas.height) {
+                        p.x = Math.random() * canvas.width;
+                        p.y = -20;
+                        p.tilt = Math.random() * 10 - 5;
+                    }
+
+                    ctx.beginPath();
+                    ctx.lineWidth = p.r;
+                    ctx.strokeStyle = p.color;
+                    ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+                    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+                    ctx.stroke();
+                });
+            }
+
+            clearInterval(confettiInterval);
+            confettiInterval = setInterval(draw, 20);
+        }
+
+        function stopConfetti() {
+            clearInterval(confettiInterval);
+            const canvas = document.getElementById('confetti-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        // Listen for screen resize to scale canvas
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('confetti-canvas');
+            if (canvas && currentScreen === 'screen-score') {
+                canvas.width = canvas.parentElement.clientWidth;
+                canvas.height = canvas.parentElement.clientHeight;
+            }
+        });
+
+    </script>
+</body>
+</html>
